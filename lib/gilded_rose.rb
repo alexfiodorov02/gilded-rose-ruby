@@ -47,7 +47,7 @@ class GildedRose
         end
       else
         if @quality < 50
-          @quality = @quality + 1
+          @quality += 1 if @days_remaining <= 0 && @quality < 50
         end
       end
     end
