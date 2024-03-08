@@ -8,9 +8,20 @@ class GildedRose
   end
 
   def tick
-    if name == 'normal'
-      return normal_tick
+    case name
+    when 'normal'
+      normal_tick
+    when 'Aged Brie'
+      brie_tick
+    when 'Backstage passes to a TAFKAL80ETC concert'
+      backstage_passes_tick
+    when 'Sulfuras, Hand of Ragnaros'
+      sulfuras_tick
     end
+  end
+
+  private
+
     if @name != "Aged Brie" and @name != "Backstage passes to a TAFKAL80ETC concert"
       if @quality > 0
         if @name != "Sulfuras, Hand of Ragnaros"
@@ -56,9 +67,20 @@ class GildedRose
     end
   end
 
+  def sulfras_tick
+
+  def brie_tick
+    @days_remaining -= 1
+    return if @quality >= 50
+
+    @quality += 1
+    @quality += 1 if @days_remaining <= 0
+  end
+
   def normal_tick
     @days_remaining -= 1
     return if @quality == 0
+
     @quality -=1
     @quality -=1 if @days_remaining <= 0
   end
