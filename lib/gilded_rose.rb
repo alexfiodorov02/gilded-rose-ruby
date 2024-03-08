@@ -22,52 +22,10 @@ class GildedRose
 
   private
 
-    if @name != "Aged Brie" and @name != "Backstage passes to a TAFKAL80ETC concert"
-      if @quality > 0
-        if @name != "Sulfuras, Hand of Ragnaros"
-          @quality = @quality - 1
-        end
-      end
-    else
-      if @quality < 50
-        @quality = @quality + 1
-        if @name == "Backstage passes to a TAFKAL80ETC concert"
-          if @days_remaining < 11
-            if @quality < 50
-              @quality = @quality + 1
-            end
-          end
-          if @days_remaining < 6
-            if @quality < 50
-              @quality = @quality + 1
-            end
-          end
-        end
-      end
-    end
-    if @name != "Sulfuras, Hand of Ragnaros"
-      @days_remaining = @days_remaining - 1
-    end
-    if @days_remaining < 0
-      if @name != "Aged Brie"
-        if @name != "Backstage passes to a TAFKAL80ETC concert"
-          if @quality > 0
-            if @name != "Sulfuras, Hand of Ragnaros"
-              @quality = @quality - 1
-            end
-          end
-        else
-          @quality = @quality - @quality
-        end
-      else
-        if @quality < 50
-          @quality += 1 if @days_remaining <= 0 && @quality < 50
-        end
-      end
+  def sulfras_tick
+      # Sulfuras doesn't change in quality or sell_in
     end
   end
-
-  def sulfras_tick
 
   def brie_tick
     @days_remaining -= 1
@@ -84,3 +42,14 @@ class GildedRose
     @quality -=1
     @quality -=1 if @days_remaining <= 0
   end
+
+  def backstage_passes_tick
+    @days_remaining -= 1
+    return if @quality >= 50
+
+    @quality += 1
+    @quality += 1 if @days_remaining < 11
+    @quality += 1 if @days_remaining < 6
+    @quality = 0 if @days_remaining < 0
+  end
+end
